@@ -111,10 +111,8 @@ def get_post(timestamp: int) -> str:
         if post['timestamp'] < timestamp:
             resp.data = json.dumps(post)
             return resp
-            # return json.dumps(post)
     resp.data = json.dumps({'message': 'post not found'})
     return resp
-    # return json.dumps({'message': 'post not found'})
 
 
 if __name__ == '__main__':
