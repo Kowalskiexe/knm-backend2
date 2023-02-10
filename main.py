@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 from dotenv import load_dotenv
-from flask import Flask
+from flask import Flask, Response
 from datetime import datetime
 from datetime import timedelta
 from time import mktime
@@ -92,7 +92,7 @@ update_threshold = timedelta(seconds=10)
 app = Flask(__name__)
 
 
-@app.route("/")
+# @app.route("/")
 def home() -> str:
     return "<h1>general kenobi</h1>"
 
@@ -105,10 +105,16 @@ def get_post(timestamp: int) -> str:
         update_cache()
         last_update = datetime.now()
         print('udpate done')
+    resp = Response()
+    resp.headers['Access-Control-Allow-Origin'] = '*'
     for post in posts:
         if post['timestamp'] < timestamp:
-            return json.dumps(post)
-    return json.dumps({'message': 'post not found'})
+            resp.data = json.dumps(post)
+            return resp
+            # return json.dumps(post)
+    resp.data = json.dumps({'message': 'post not found'})
+    return resp
+    # return json.dumps({'message': 'post not found'})
 
 
 if __name__ == '__main__':
