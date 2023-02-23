@@ -89,16 +89,18 @@ last_update = datetime.now()
 update_threshold = timedelta(seconds=10)
 
 
-app = Flask(__name__)
+app = Flask(__name__,
+        static_url_path='',
+        static_folder='../static')
 
 
-# @app.route("/")
+@app.route("/")
 def home() -> str:
-    return "<h1>general kenobi</h1>"
-
+    return app.send_static_file('index.html')
+#    return "<h1>general kenobi</h1>"
 
 # return latest post but not newer than provided timestamp
-@app.route('/<int:timestamp>')
+@app.route('/news/<int:timestamp>')
 def get_post(timestamp: int) -> str:
     global last_update
     if datetime.now() - last_update >= update_threshold:
