@@ -67,13 +67,7 @@ def update_cache():
         if 'full_picture' in raw_post:
             post['picture_url'] = raw_post['full_picture']
 
-        # format now : YYYY-MM-DDTHH:MM:SS+ZZZZ
-        # should be  : YYYY-MM-DDTHH:MM:SS+ZZ:ZZ
-        date_published = raw_post['created_time']
-        date_published = list(date_published)
-        date_published.insert(-2, ':')
-        date_published = ''.join(date_published)
-        date_published = datetime.fromisoformat(date_published)
+        date_published = datetime.fromisoformat(raw_post['created_time'])
         post['timestamp'] = mktime(date_published.timetuple())
 
         if 'story' in raw_post:
